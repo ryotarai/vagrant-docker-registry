@@ -5,8 +5,8 @@ Run docker-registry locally:
 ```
 $ export AWS_ACCESS_KEY_ID="..."
 $ export AWS_SECRET_ACCESS_KEY="..."
-$ export AWS_BUCKET="..."
-$ export STORAGE_PATH="..."
+$ export DOCKER_REGISTRY_AWS_BUCKET="..."
+$ export DOCKER_REGISTRY_STORAGE_PATH="..."
 $ vagrant up
 $ vagrant ssh -c 'ip addr | grep inet | grep eth1'
     inet 172.28.128.3/24 brd 172.28.128.255 scope global eth1
