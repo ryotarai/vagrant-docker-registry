@@ -31,8 +31,8 @@ fi
 if ! (docker ps | grep -q registry); then
   docker run \
   -e SETTINGS_FLAVOR=s3 \
-  -e AWS_BUCKET=#{ENV['AWS_BUCKET']} \
-  -e STORAGE_PATH=#{ENV['STORAGE_PATH']} \
+  -e AWS_BUCKET=#{ENV['DOCKER_REGISTRY_AWS_BUCKET']} \
+  -e STORAGE_PATH=#{ENV['DOCKER_REGISTRY_STORAGE_PATH']} \
   -e AWS_KEY=#{ENV['AWS_ACCESS_KEY_ID']} \
   -e AWS_SECRET=#{ENV['AWS_SECRET_ACCESS_KEY']} \
   -e SEARCH_BACKEND=sqlalchemy \
