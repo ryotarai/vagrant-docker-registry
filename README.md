@@ -5,6 +5,7 @@ Run docker-registry locally:
 ```
 $ export AWS_ACCESS_KEY_ID="..."
 $ export AWS_SECRET_ACCESS_KEY="..."
+$ export AWS_REGION="..."
 $ export DOCKER_REGISTRY_AWS_BUCKET="..."
 $ export DOCKER_REGISTRY_STORAGE_PATH="..."
 $ vagrant up

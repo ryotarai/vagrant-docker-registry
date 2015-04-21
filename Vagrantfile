@@ -28,17 +28,33 @@ if ! (which docker); then
   apt-get -y install lxc-docker
 fi
 
+mkdir -p /etc/docker-registry
+cat > /etc/docker-registry/config.yml <<EOS
+version: 0.1
+log:
+  level: debug
+  fields:
+    service: registry
+    environment: development
+storage:
+    cache:
+        layerinfo: inmemory
+    s3:
+        bucket: #{ENV['DOCKER_REGISTRY_AWS_BUCKET']}
+        rootdirectory: #{ENV['DOCKER_REGISTRY_STORAGE_PATH']}
+        accesskey: #{ENV['AWS_ACCESS_KEY_ID']}
+        secretkey: #{ENV['AWS_SECRET_ACCESS_KEY']}
+        region: #{ENV['AWS_REGION']}
+http:
+    addr: :5000
+    secret: asecretforlocaldevelopment
+    debug:
+        addr: localhost:5001
+EOS
+chmod 600 /etc/docker-registry/config.yml
+
 if ! (docker ps | grep -q registry); then
-  docker run \
-  -e SETTINGS_FLAVOR=s3 \
-  -e AWS_BUCKET=#{ENV['DOCKER_REGISTRY_AWS_BUCKET']} \
-  -e STORAGE_PATH=#{ENV['DOCKER_REGISTRY_STORAGE_PATH']} \
-  -e AWS_KEY=#{ENV['AWS_ACCESS_KEY_ID']} \
-  -e AWS_SECRET=#{ENV['AWS_SECRET_ACCESS_KEY']} \
-  -e SEARCH_BACKEND=sqlalchemy \
-  -p 80:5000 \
-  -d \
-  registry:0.9.1
+  docker run -p 80:5000 -d --volume /etc/docker-registry:/etc/docker-registry:ro registry:2.0 /etc/docker-registry/config.yml
 fi
   EOC
 end
