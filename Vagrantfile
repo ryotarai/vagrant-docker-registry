@@ -38,7 +38,7 @@ if ! (docker ps | grep -q registry); then
   -e SEARCH_BACKEND=sqlalchemy \
   -p 80:5000 \
   -d \
-  registry
+  registry:0.9.1
 fi
   EOC
 end
